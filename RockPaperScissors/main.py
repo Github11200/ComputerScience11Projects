@@ -1,5 +1,9 @@
 import random
 import os.path
+import pyfiglet
+
+print(pyfiglet.figlet_format(
+    "Rock, Paper, Scissors", font="big", width=500))
 
 
 def check_who_won(user_input, computer_input):
