@@ -14,9 +14,9 @@ class LinearRegression:
     about the accuracy of the model and how much of a relation there is between the independent and dependent variables
     """
 
-    def __init__(self, csv_file_path, independent_variables, dependent_variable):
+    def __init__(self, csv_file_path, independent_variables, dependent_variable, prediction_data, should_plot_data=False):
         """
-        Prepare all of the variables that other methods inside the class will require
+        Prepare all of the variables that other methods inside the class will require, and also train the model
         """
         self.csv_file_path = csv_file_path
         self.independent_variables = independent_variables
@@ -29,7 +29,18 @@ class LinearRegression:
         self.X_test = None
         self.y_test = None
 
+        self.prediction_data = prediction_data
+        self.should_plot_data = should_plot_data
+
         self.get_and_split_data()
+
+    def start(self):
+        """
+        This will perform the training, testing, and prediction tests on the model
+        """
+        self.train()
+        self.test()
+        self.predict()
 
     def get_and_split_data(self):
         """
@@ -48,12 +59,17 @@ class LinearRegression:
         self.__plot_data(self.X_train, self.y_train, "b")
         self.__plot_data(self.X_test, self.y_test, "r")
 
+        for i, independent_variable in enumerate(self.independent_variables):
+            print(f"{independent_variable}{", " if i < len(
+                self.independent_variables) - 1 else ""}", end="")
+        print(f"\nDependent Variable: {self.dependent_variable}")
+
     def __plot_data(self, X, y, color):
         """
         Plot data ONLY IF the independent variable, X, has a shape of (some length, 1) which means it only
         has 1 feature (eg. [["Attack"]] would be fine but [["Attack", "Defense"]] would not be)
         """
-        if X.shape[1] == 1:
+        if X.shape[1] == 1 and self.should_plot_data:
             plt.scatter(X, y, c=color)
 
     def train(self):
@@ -77,32 +93,45 @@ class LinearRegression:
 
         plt.show()
 
-    def predict(self, X):
+    def predict(self):
         """
         Predict new values based on the new data given and print out the score and RSME
         """
-        y_pred = self.model.predict(X)
+        y_pred = self.model.predict(self.prediction_data)
 
+        print(f"Prediction data: {self.prediction_data[0][0]}")
         print(f"y prediction: {round(y_pred[0])}")
 
 
-model_1 = LinearRegression(
-    "MachineLearning/Pokemon.csv", ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"], "Total")
+print("\n/////////////////////////////////////////////////////////////////////\n")
 
-model_1.train()
-model_1.test()
-model_1.predict([[45, 49, 49, 65, 65, 45]])
+model_1 = LinearRegression(
+    csv_file_path="MachineLearning/Pokemon.csv",
+    independent_variables=["HP", "Attack",
+                           "Defense", "Sp. Atk", "Sp. Def", "Speed"],
+    dependent_variable="Total",
+    prediction_data=[[45, 49, 49, 65, 65, 45]])
+
+model_1.start()
+
+print("\n/////////////////////////////////////////////////////////////////////\n")
 
 model_2 = LinearRegression(
-    "MachineLearning/Pokemon.csv", ["Sp. Def"], "Sp. Atk")
+    csv_file_path="MachineLearning/Pokemon.csv",
+    independent_variables=["Sp. Def"],
+    dependent_variable="Sp. Atk",
+    prediction_data=[[65]])
 
-model_2.train()
-model_2.test()
-model_2.predict([[65]])
+model_2.start()
+
+print("\n/////////////////////////////////////////////////////////////////////\n")
 
 model_3 = LinearRegression(
-    "MachineLearning/Pokemon.csv", ["Defense"], "Attack")
+    csv_file_path="MachineLearning/Pokemon.csv",
+    independent_variables=["Defense"],
+    dependent_variable="Attack",
+    prediction_data=[[49]])
 
-model_3.train()
-model_3.test()
-model_3.predict([[49]])
+model_3.start()
+
+print("\n/////////////////////////////////////////////////////////////////////\n")
