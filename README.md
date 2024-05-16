@@ -18,6 +18,12 @@ This repository contains all of the projects I created for my Computer Science 1
 - The user can continue playing until they want to stop
 - The scores are saved to a text file and are then loaded from there
 
+## Machine Learning ✨
+![image](https://github.com/Github11200/ComputerScience11Projects/assets/78944617/56978e70-cc4a-46e4-9a74-a6a5cf3bd09f)
+- This project uses Scikit Learn, Pandas, Numpy, and Matplotlib which are all used inside Jupyter Notebook as well as Python files
+- There is a linear regression class that allows you to perform a linear regression on a csv file of your choosing and data points of your choice
+- There is also a classification class that lets you perform multi-class classification on your own csv data
+
 ## Usage 🛠️
 If you'd like to use any of these projects then follow the steps below:
 1. Clone the repository
